@@ -33,6 +33,23 @@ docker-compose down
 
 ### Mongo
 
+En caso de tener el contenedor apagado:
+
+```shell
+docker start mongodb
+```
+
+Iniciamos la terminal de mongo:
+
+```shell
+docker exec -it mongodb mongosh
+```
+
+Ya dentro de la terminal nos vamos a la base correspondiente:
+```shell
+use spotify
+```
+
 #### Número de artistas clasificados por género
 ```js
 db.artists.aggregate([
@@ -45,6 +62,18 @@ db.artists.aggregate([
 
 ### Neo4j
 
+En caso de tener el contenedor apagado:
+
+```shell
+docker start neo4jdb
+```
+
+Iniciamos la terminal de neo4j:
+
+```shell
+docker exec -it neo4jdb cypher-shell
+```
+
 #### Top 3 de artistas con mayores colaboraciones por año
 ```cypher
 MATCH (a1:Artist)<-[:SANG_BY]-(s:Song)-[:SANG_BY]->(a2:Artist)
@@ -54,3 +83,11 @@ MATCH (a1:Artist)<-[:SANG_BY]-(s:Song)-[:SANG_BY]->(a2:Artist)
              WITH collaboration_year, COLLECT({artist: a1.name, collaborations: collaborations})[..3] AS top3Collaborators
              RETURN collaboration_year, top3Collaborators;
 ```
+
+## Finalizacion
+
+En caso de querer eliminar los contenedores, podemos usar `docker compose down`. Si no, podemos ejecutar la siguiente línea y solo prender los contenedores requeridos la siguiente vez:
+
+´´´shell
+docker-compose stop
+´´´
