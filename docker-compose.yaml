@@ -1,0 +1,41 @@
+version: '3'
+services:
+
+  # MongoDB service
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  # Neo4j service with APOC plugin
+  neo4jdb:
+    image: neo4j:latest
+    container_name: neo4jdb
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/neoneoneo
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_apoc_import_file_use__neo4j__config: "true"
+      NEO4JLABS_PLUGINS: '["apoc"]'
+    volumes:
+      - neo4j_data:/data
+
+  # Service to load data with python
+  python:
+    container_name: python_load
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb
+      - neo4jdb
+
+volumes:
+  mongodb_data:
+  neo4j_data:
