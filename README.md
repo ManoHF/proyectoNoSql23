@@ -1,6 +1,11 @@
 # proyectoNoSql23
 Conexion de API a Mongo mediante Python, y ETL para carga en base de grafos
 
+Integrantes:
+* Manuel Hermida
+* Fernando
+* Ian
+
 ## Queries por BD
 
 ### Mongo
