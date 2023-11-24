@@ -10,8 +10,23 @@ Integrantes:
 
 A partir del uso de **docker-compose** podemos generar una aplicación con múltiples contenedores. Para lograrlo, definimos nuestros servicios en el archivo `docker-compose.yaml` para, posteriormente, correrlos de manera conjunta en un ambiente aislado. Dentro de tu terminal y en el directorio en el cual descargaste los archivos, ejecuta el siguiente comando para iniciar los contenedores:
 
-```sh
-docker-compose up -d
+```shell
+docker-compose up --build -d
+```
+
+Una vez terminada la creación de los contenedores, se ejecutará de manera automática el script `nombre_final.py`. Inicialmente no se verá nada, pero puedes seguir el proceso del script ejecutando:
+
+```shell
+docker logs -f python_load
+```
+La carga toma aproximadamente **15 minutos**.
+
+### En caso de error
+
+Si la API de Spotify llega a cerrar la conexión antes de terminar la carga, ejecuta las siguiente linea y repite el proceso de instalación
+
+```shell
+docker-compose down
 ```
 
 ## Queries por BD
