@@ -6,6 +6,14 @@ Integrantes:
 * Fernando
 * Ian
 
+## Instalacion de contenedores
+
+A partir del uso de **docker-compose** podemos generar una aplicación con múltiples contenedores. Para lograrlo, definimos nuestros servicios en el archivo `docker-compose.yaml` para, posteriormente, correrlos de manera conjunta en un ambiente aislado. Dentro de tu terminal y en el directorio en el cual descargaste los archivos, ejecuta el siguiente comando para iniciar los contenedores:
+
+```sh
+docker-compose up -d
+```
+
 ## Queries por BD
 
 ### Mongo
