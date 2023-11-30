@@ -48,21 +48,21 @@ def get(access_token, lista, limite, year, type):
     return lista
 
 artistas=[]
-for a in range(2022, 2023):
+for a in range(2013, 2023):
     print(f'\n\t Artistas {a} ', end='')
     artistas = get(access_token, artistas, 1000, a, 'artist')
 
 dict_artistas = [artista for artista in artistas if isinstance(artista, dict)]
 
 albums=[]
-for a in range(2022, 2023):
+for a in range(2013, 2023):
     print(f'\n\t Albums {a} ', end='')
     albums = get(access_token, albums, 1000, a, 'album')
 
 dict_album = [album for album in albums if isinstance(album, dict)]
 
 canciones=[]
-for a in range(2022, 2023):
+for a in range(2013, 2023):
     print(f'\n\t Canciones {a} ', end='')
     canciones = get(access_token, canciones, 1000, a, 'track')
 
