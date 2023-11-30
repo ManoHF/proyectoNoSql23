@@ -12,6 +12,8 @@ Descarga el proyecto utilizando `git clone`.
 
 A partir del uso de **docker-compose** podemos generar una aplicación con múltiples contenedores. Para lograrlo, definimos nuestros servicios en el archivo `docker-compose.yaml` para, posteriormente, correrlos de manera conjunta en un ambiente aislado. Dentro de tu terminal y en el directorio en el cual descargaste los archivos, ejecuta el siguiente comando para iniciar los contenedores:
 
+**NOTA: Hay que agregar las credenciales del API de SPOTIFY en load_mongo_neo.py antes de correr el docker compose.
+
 ```shell
 docker-compose down --volumes
 docker-compose up --build -d
