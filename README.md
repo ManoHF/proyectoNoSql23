@@ -60,7 +60,7 @@ db.artists.aggregate([
 ])
 ```
 
-#### Top 10 canciones más populares con su artista, año y album
+#### Top 5 canciones más populares con su artista, año y album
 ```js
 db.tracks.aggregate([
   { $unwind: "$artists" },
@@ -68,7 +68,7 @@ db.tracks.aggregate([
       mostPopularTrack: { $first: {
           popularity: "$popularity", name: "$name", artist: "$artists.name", trackId: "$id" } } } },
   { $sort: { "mostPopularTrack.popularity": -1, "mostPopularTrack.trackId": -1 } },
-  { $limit: 10 },
+  { $limit: 5 },
   { $lookup: { from: "albums", localField: "_id", foreignField: "id", as: "albumInfo" } },
   { $unwind: "$albumInfo" },
   { $project: { _id: 0, name: "$mostPopularTrack.name", popularity: "$mostPopularTrack.popularity",
@@ -99,6 +99,29 @@ MATCH (a1:Artist)<-[:SANG_BY]-(s:Song)-[:SANG_BY]->(a2:Artist)
              ORDER BY collaboration_year, collaborations DESC
              WITH collaboration_year, COLLECT({artist: a1.name, collaborations: collaborations})[..3] AS top3Collaborators
              RETURN collaboration_year, top3Collaborators;
+```
+
+#### Top 5 duos más populars
+```cypher
+MATCH (a1:Artist)<-[:SANG_BY]-(song:Song)-[:SANG_BY]->(a2:Artist)
+WITH a1, a2, COLLECT(DISTINCT song.name) AS popularSongs, AVG(song.popularity) AS avgPopularity
+WHERE SIZE(popularSongs) >= 3 AND a1 < a2
+RETURN a1.name AS artist1, a2.name AS artist2, popularSongs, avgPopularity
+ORDER BY avgPopularity DESC, SIZE(popularSongs) DESC
+LIMIT 5;
+```
+
+### Cassandra
+
+#### Top 5 artistas con más popularidad promedio en sus canciones
+```cql
+SELECT artist_id, name AS artist_name, AVG(CAST(t.popularity AS DOUBLE)) AS avg_track_popularity
+FROM artists
+JOIN tracks t ON artists.artist_id = t.artist_id
+WHERE t.popularity IS NOT NULL
+GROUP BY artist_id, name
+ORDER BY avg_track_popularity DESC
+LIMIT 5;
 ```
 
 ## Finalizacion
