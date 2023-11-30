@@ -11,6 +11,7 @@ Integrantes:
 A partir del uso de **docker-compose** podemos generar una aplicación con múltiples contenedores. Para lograrlo, definimos nuestros servicios en el archivo `docker-compose.yaml` para, posteriormente, correrlos de manera conjunta en un ambiente aislado. Dentro de tu terminal y en el directorio en el cual descargaste los archivos, ejecuta el siguiente comando para iniciar los contenedores:
 
 ```shell
+docker-compose down --volumes
 docker-compose up --build -d
 ```
 
@@ -112,6 +113,18 @@ LIMIT 5;
 ```
 
 ### Cassandra
+
+En caso de tener el contenedor apagado:
+
+```shell
+docker start cassandradb
+```
+
+Iniciamos la terminal de cassandra:
+
+```shell
+docker exec -it cassandradb cqlsh
+```
 
 #### Top 5 artistas con más popularidad promedio en sus canciones
 ```cql
