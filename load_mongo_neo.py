@@ -7,12 +7,11 @@ from cassandra.cluster import Cluster
 
 # --------------------------------- Spotify Connection -------------------------------------
 
-# Set your Spotify API credentials
+# Credenciales de la API
 client_id = 'b38132eea44845dea8ed79e258b80762'
 client_secret = 'f0a68e72bb82459e9b4ab23456266dc9'
 
 #TOKEN API
-
 token = {"grant_type": "client_credentials"}
 cred = f"{client_id}:{client_secret}"
 cred_b64 = base64.b64encode(cred.encode())
@@ -26,6 +25,18 @@ data = r.json()
 now = datetime.datetime.now()
 access_token = data['access_token']
 
+"""
+Function get(access_token, lista, limite, year, type): devuelve en una lista el resultado de un request a la API
+                                                       de Spotify con ciertas condiciones
+Parametros:
+- access_token: permite el acceso a la API
+- lista: valor de retorno con los documentos recuperados
+- limite: numero de documentos a recuperar
+- year: año de los documentos
+- type: filtro para los documentos (artistas, canciones, álbumes, entre otros)
+
+Valor de retorno: lista de diccionarios
+"""
 def get(access_token, lista, limite, year, type):
     offset = 0
     for _ in range(round(limite/50)):
@@ -47,6 +58,7 @@ def get(access_token, lista, limite, year, type):
             break
     return lista
 
+# Recuperacion de artistas desde la API
 artistas=[]
 for a in range(2013, 2023):
     print(f'\n\t Artistas {a} ', end='')
@@ -54,6 +66,7 @@ for a in range(2013, 2023):
 
 dict_artistas = [artista for artista in artistas if isinstance(artista, dict)]
 
+# Recuperacion de albumes desde la API
 albums=[]
 for a in range(2013, 2023):
     print(f'\n\t Albums {a} ', end='')
@@ -61,6 +74,7 @@ for a in range(2013, 2023):
 
 dict_album = [album for album in albums if isinstance(album, dict)]
 
+# Recuperacion de canciones desde la API
 canciones=[]
 for a in range(2013, 2023):
     print(f'\n\t Canciones {a} ', end='')
@@ -70,6 +84,7 @@ dict_canciones = [cancion for cancion in canciones if isinstance(cancion, dict)]
 
 # --------------------------------- Mongo DB -----------------------------------------------
 
+# Conexion con Mongo
 client = pymongo.MongoClient("mongodb://mongodb:27017")
 db = client["spotify"]
 
@@ -108,7 +123,7 @@ matcher = NodeMatcher(graph)
 # Reseatear la base de datos
 graph.delete_all()
 
-# Creacion de los nodos de artistas
+# Creacion e insercion de los nodos de artistas
 
 for artist in dict_artistas:
     artist_node = Node("Artist", artist_id=artist["id"], name=artist["name"], popularity=artist["popularity"],
@@ -123,6 +138,8 @@ for artist in dict_artistas:
         graph.create(relationship)
 print(f"\nSuccessful insertion of artists in Neo4j")
 
+# Creacion e insercion de los nodos de albumes
+
 n = 0
 for album in dict_album:
     album_node = Node("Album", album_id=album["id"], name=album["name"], release_date=album["release_date"],
@@ -136,6 +153,8 @@ for album in dict_album:
             graph.create(relationship)
             n += 1
 print(f"Successful insertion of albums in Neo4j - with {n} relations")
+
+# Creacion e insercion de los nodos de canciones
 
 m = 0
 m2 = 0
@@ -160,6 +179,7 @@ print(f"Successful insertion of songs in Neo4j - with {m} + {m2} relations\n")
 
 # --------------------------------- Cassandra -----------------------------------------------
 
+# Conexion con Cassandra
 contact_point = 'cassandradb'
 cluster = Cluster([contact_point])
 
