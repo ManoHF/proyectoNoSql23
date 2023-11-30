@@ -102,7 +102,7 @@ Iniciamos la terminal de neo4j:
 ```shell
 docker exec -it neo4jdb cypher-shell
 ```
-Usando esta contraseña:
+Usando el usuario neo4j y esta contraseña:
 ```shell
 neoneoneo
 ```
