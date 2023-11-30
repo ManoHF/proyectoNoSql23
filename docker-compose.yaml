@@ -26,6 +26,18 @@ services:
     volumes:
       - neo4j_data:/data
 
+  # Cassandra service
+  cassandradb:
+    image: cassandra:latest
+    container_name: cassandradb
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=my_cluster
+      - CASSANDRA_SEEDS=cassandra
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+
   # Service to load data with python
   python:
     container_name: python_load
@@ -35,7 +47,9 @@ services:
     depends_on:
       - mongodb
       - neo4jdb
+      - cassandradb
 
 volumes:
   mongodb_data:
   neo4j_data:
+  cassandra_data:
