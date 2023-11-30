@@ -143,11 +143,18 @@ En caso de tener el contenedor apagado:
 docker start cassandradb
 ```
 
-Iniciamos la terminal de cassandra:
+Iniciamos la terminal de cassandra (puedes necesitar correrlo varias veces en lo que inicia bien):
 
 ```shell
 docker exec -it cassandradb cqlsh
 ```
+
+Ya dentro de cassandra:
+
+```shell
+use spotify
+```
+
 #### ¿Cuales albumes tiene más de 200 canciones?
 ```SQL
 SELECT name,total_tracks 
