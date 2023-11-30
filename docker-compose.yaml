@@ -29,7 +29,7 @@ services:
   # Cassandra service
   cassandradb:
     image: cassandra:latest
-    container_name: cassandradb
+    container_name: cassandra
     ports:
       - "9042:9042"
     environment:
