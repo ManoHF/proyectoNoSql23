@@ -102,6 +102,10 @@ Iniciamos la terminal de neo4j:
 ```shell
 docker exec -it neo4jdb cypher-shell
 ```
+Usando esta contraseña:
+```shell
+neoneoneo
+```
 
 #### Top 3 de artistas con mayores colaboraciones por año
 ```cypher
@@ -135,17 +139,6 @@ Iniciamos la terminal de cassandra:
 
 ```shell
 docker exec -it cassandradb cqlsh
-```
-
-#### Top 5 artistas con más popularidad promedio en sus canciones
-```cql
-SELECT artist_id, name AS artist_name, AVG(CAST(t.popularity AS DOUBLE)) AS avg_track_popularity
-FROM artists
-JOIN tracks t ON artists.artist_id = t.artist_id
-WHERE t.popularity IS NOT NULL
-GROUP BY artist_id, name
-ORDER BY avg_track_popularity DESC
-LIMIT 5;
 ```
 
 ## Finalizacion
