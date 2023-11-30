@@ -181,7 +181,7 @@ WHERE duration_ms > 600000  ALLOW FILTERING;
 
 ## Resultados
 
-Si quieres ver de manera visual los resultados de los queries, ingresa al siguiente [link](Presentacion.pdf)
+Si quieres ver de manera visual los resultados de los queries, ingresa al siguiente [link](Resultados.pdf)
 
 ## Finalizacion
 
