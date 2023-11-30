@@ -155,6 +155,13 @@ FROM spotify.albums
 WHERE release_date>='2013-01-01' AND release_date<='2022-12-31' allow filtering;
 ```
 
+#### ¿Cuales son los artistas que tienen más de 50,000,000 de followers?
+```SQL
+SELECT name,genres 
+FROM spotify.artists 
+WHERE followers>50000000 allow filtering;
+```
+
 ## Finalizacion
 
 En caso de querer eliminar los contenedores, podemos usar `docker compose down`. Si no, podemos ejecutar la siguiente línea y solo prender los contenedores requeridos la siguiente vez:
