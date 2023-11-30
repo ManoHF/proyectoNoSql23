@@ -148,11 +148,11 @@ Iniciamos la terminal de cassandra:
 ```shell
 docker exec -it cassandradb cqlsh
 ```
-#### Nombre de los albums lanzados en Diciembre del 2022
+#### ¿Cuantos albums tenemos del 2013 al 2022?
 ```SQL
-SELECT name 
+SELECT count(*) 
 FROM spotify.albums 
-WHERE release_date>='2022-12-01' allow filtering;
+WHERE release_date>='2013-01-01' AND release_date<='2022-12-31' allow filtering;
 ```
 
 ## Finalizacion
