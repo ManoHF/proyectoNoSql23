@@ -4,7 +4,7 @@ Conexion de API a Mongo mediante Python, y ETL para carga en base de grafos
 Integrantes:
 * Manuel Hermida
 * Fernando
-* Ian
+* Ian Carbajal
 
 ## Instalacion de contenedores
 
@@ -76,6 +76,17 @@ db.tracks.aggregate([
  albumName: "$albumInfo.name", releaseDate: { $dateToString: { format: "%Y-%m", date: { $toDate: "$albumInfo.release_date" } } },
  artistName: "$mostPopularTrack.artist", } }
 ])
+```
+
+### ¿Cuantas canciones se lanzan por mes?
+```js
+db.tracks.aggregate([
+   { $match: { $expr: {$eq: [{$strLenCP: '$album.release_date'}, 10] } } },
+   { $project: { _id: 0, 'mes': {$month: { $toDate: '$album.release_date' } } } },
+   { $group: { _id:'$mes', count: {$count: {}} } },
+   { $project: { 'mes': '$_id', 'count': 1, _id:0 } },
+   { $sort: { 'count': -1 } }
+]);
 ```
 
 ### Neo4j
