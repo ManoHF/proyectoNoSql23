@@ -172,7 +172,7 @@ WHERE duration_ms > 600000  ALLOW FILTERING;
 
 ## Finalizacion
 
-En caso de querer eliminar los contenedores, podemos usar `docker compose down`. Si no, podemos ejecutar la siguiente línea y solo prender los contenedores requeridos la siguiente vez:
+En caso de querer eliminar los contenedores, podemos usar `docker compose down --volume`. Si no, podemos ejecutar la siguiente línea y solo prender los contenedores requeridos la siguiente vez:
 
 ```shell
 docker-compose stop
