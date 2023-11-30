@@ -117,7 +117,7 @@ MATCH (a1:Artist)<-[:SANG_BY]-(s:Song)-[:SANG_BY]->(a2:Artist)
              RETURN collaboration_year, top3Collaborators;
 ```
 
-#### Top 5 duos más populars
+#### Top 5 duos más populares
 ```cypher
 MATCH (a1:Artist)<-[:SANG_BY]-(song:Song)-[:SANG_BY]->(a2:Artist)
 WITH a1, a2, COLLECT(DISTINCT song.name) AS popularSongs, AVG(song.popularity) AS avgPopularity
@@ -125,6 +125,14 @@ WHERE SIZE(popularSongs) >= 3 AND a1 < a2
 RETURN a1.name AS artist1, a2.name AS artist2, popularSongs, avgPopularity
 ORDER BY avgPopularity DESC, SIZE(popularSongs) DESC
 LIMIT 5;
+```
+####  10 canciones en las cuales colaboraron más artistas
+```cypher
+MATCH (s:Song)-[:SANG_BY]->(a:Artist)
+WITH s, COUNT(DISTINCT a) AS numCollaborators
+RETURN s.name AS song_name, numCollaborators
+ORDER BY numCollaborators DESC
+LIMIT 10;
 ```
 
 ### Cassandra
