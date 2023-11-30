@@ -87,7 +87,7 @@ echo -e "\nCreamos tablas cassandra:"
 docker exec -i cassandra cqlsh -e "CREATE keyspace spotify with  replication = {'class': 'SimpleStrategy','replication_factor': '1'};"
 
 docker exec -i cassandra cqlsh -e "use spotify;"
-docker exec -i cassandra cqlsh -e "drop table spotify.artists;drop table spotify.albums;drop table spotify.tracks;"
+#docker exec -i cassandra cqlsh -e "drop table spotify.artists;drop table spotify.albums;drop table spotify.tracks;"
 
 echo "- Tabla artist"
 docker exec -i cassandra cqlsh -k spotify -e "CREATE TABLE artists (
