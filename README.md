@@ -60,6 +60,23 @@ db.artists.aggregate([
 ])
 ```
 
+### Top 10 canciones más populares con su artista y album
+```js
+db.tracks.aggregate([
+  { $unwind: "$artists" },
+  { $group: { _id: "$album.id",
+      mostPopularTrack: { $first: {
+          popularity: "$popularity", name: "$name", artist: "$artists.name", trackId: "$id" } } } },
+  { $sort: { "mostPopularTrack.popularity": -1, "mostPopularTrack.trackId": -1 } },
+  { $limit: 10 },
+  { $lookup: { from: "albums", localField: "_id", foreignField: "id", as: "albumInfo" } },
+  { $unwind: "$albumInfo" },
+  { $project: { _id: 0, albumName: "$albumInfo.name", artistName: "$mostPopularTrack.artist",
+      mostPopularTrack: {
+        name: "$mostPopularTrack.name", popularity: "$mostPopularTrack.popularity" } } }
+])
+```
+
 ### Neo4j
 
 En caso de tener el contenedor apagado:
