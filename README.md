@@ -27,7 +27,7 @@ La carga toma aproximadamente **15 minutos**.
 Si la API de Spotify llega a cerrar la conexión antes de terminar la carga, ejecuta las siguiente linea y repite el proceso de instalación
 
 ```shell
-docker-compose down
+docker-compose down --volumes
 ```
 
 ## Queries por BD
