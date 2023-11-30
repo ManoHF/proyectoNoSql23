@@ -2,7 +2,7 @@
 Conexion de API a Mongo mediante Python, y ETL para carga en base de grafos y una base columnar
 
 Integrantes:
-* Manuel Hermida
+* Manuel Hermida 189702
 * Fernando Guillen 000198336
 * Ian Carbajal
 
