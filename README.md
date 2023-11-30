@@ -72,7 +72,8 @@ db.tracks.aggregate([
   { $lookup: { from: "albums", localField: "_id", foreignField: "id", as: "albumInfo" } },
   { $unwind: "$albumInfo" },
   { $project: { _id: 0, name: "$mostPopularTrack.name", popularity: "$mostPopularTrack.popularity",
- albumName: "$albumInfo.name", releaseYear: { $year: { $toDate: "$albumInfo.release_date" } }, artistName: "$mostPopularTrack.artist", } }
+ albumName: "$albumInfo.name", releaseDate: { $dateToString: { format: "%Y-%m", date: { $toDate: "$albumInfo.release_date" } } },
+ artistName: "$mostPopularTrack.artist", } }
 ])
 ```
 
