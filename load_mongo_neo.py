@@ -7,9 +7,9 @@ from cassandra.cluster import Cluster
 
 # --------------------------------- Spotify Connection -------------------------------------
 
-# Credenciales de la API
-client_id = 'b38132eea44845dea8ed79e258b80762'
-client_secret = 'f0a68e72bb82459e9b4ab23456266dc9'
+# CREDENCIALES API
+client_id = ''            #PONER LAS CREDENCIALES DE SPOTIFY
+client_secret = ''
 
 #TOKEN API
 token = {"grant_type": "client_credentials"}
