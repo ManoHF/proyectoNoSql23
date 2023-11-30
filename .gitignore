@@ -1,6 +1,0 @@
-# Ignore directories
-csv/
-data/
-
-# Ignore a specific file
-creacion-tablas-cas.sh

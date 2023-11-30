@@ -3,6 +3,7 @@ import base64
 import pymongo
 import datetime
 from py2neo import Graph, Node, Relationship, NodeMatcher
+from cassandra.cluster import Cluster
 
 # --------------------------------- Spotify Connection -------------------------------------
 
@@ -47,21 +48,21 @@ def get(access_token, lista, limite, year, type):
     return lista
 
 artistas=[]
-for a in range(2013, 2023):
+for a in range(2022, 2023):
     print(f'\n\t Artistas {a} ', end='')
     artistas = get(access_token, artistas, 1000, a, 'artist')
 
 dict_artistas = [artista for artista in artistas if isinstance(artista, dict)]
 
 albums=[]
-for a in range(2013, 2023):
+for a in range(2022, 2023):
     print(f'\n\t Albums {a} ', end='')
     albums = get(access_token, albums, 1000, a, 'album')
 
 dict_album = [album for album in albums if isinstance(album, dict)]
 
 canciones=[]
-for a in range(2013, 2023):
+for a in range(2022, 2023):
     print(f'\n\t Canciones {a} ', end='')
     canciones = get(access_token, canciones, 1000, a, 'track')
 
@@ -155,5 +156,65 @@ for cancion in dict_canciones:
         relationship = Relationship(cancion_node, "INCLUDED_IN", album_node)
         graph.create(relationship)
         m2 += 1
-print(f"Successful insertion of songs in Neo4j - with {m} + {m2} relations")
+print(f"Successful insertion of songs in Neo4j - with {m} + {m2} relations\n")
 
+# --------------------------------- Cassandra -----------------------------------------------
+
+contact_point = 'cassandradb'
+cluster = Cluster([contact_point])
+
+session = cluster.connect()
+
+keyspace_query = """
+                 CREATE KEYSPACE IF NOT EXISTS spotify
+                 WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+                 """
+session.execute(keyspace_query)
+session.set_keyspace('spotify')
+
+# Creacion y llenado de la tabla artistas
+table_artists_query = """CREATE TABLE artists 
+                         ( followers bigint, genres list<text>, artist_id text, 
+                         popularity bigint, name text, PRIMARY KEY (popularity, artist_id) ); """
+session.execute(table_artists_query)
+
+insert_query_a = "INSERT INTO artists (followers, genres, artist_id, popularity, name) VALUES (%s, %s, %s, %s, %s)"
+
+for artist in dict_artistas:
+    session.execute(insert_query_a, (artist["followers"]["total"], artist["genres"], artist["id"],
+                                   artist["popularity"], artist["name"]))
+
+print(f"Terminacion de correcta de llenado de la tabla de artistas")
+
+# Creacion y llenado de la tabla de albumes
+table_albums_query = """CREATE TABLE albums 
+                        ( album_id text, release_date date,
+                        total_tracks int, name text, PRIMARY KEY (total_tracks, release_date) ); """
+session.execute(table_albums_query)
+
+insert_query_b = "INSERT INTO albums (album_id, release_date, total_tracks, name) VALUES (%s, %s, %s, %s)"
+
+for album in dict_album:
+    session.execute(insert_query_b, (album["id"], album["release_date"],
+                                   album["total_tracks"], album["name"]))
+
+print(f"Terminacion de correcta de llenado de la tabla de albumes")
+
+# Creacion y llenado de la tabla de canciones
+table_tracks_query = """ CREATE TABLE tracks 
+                         ( album_id text, disc_number int,
+                        duration_ms int, explicit boolean, track_id text,
+                        popularity int, track_number int, name text,
+                          PRIMARY KEY (album_id, track_number) ); """
+session.execute(table_tracks_query)
+
+insert_query_c = """INSERT INTO tracks (album_id, disc_number, duration_ms, explicit, track_id, popularity, 
+                    track_number, name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+
+for artist in dict_canciones:
+    session.execute(insert_query_c, (cancion["album"]["id"], cancion["disc_number"], cancion["duration_ms"], cancion["explicit"],
+                                   cancion["id"], cancion["popularity"], cancion["track_number"], cancion["name"]))
+
+print(f"Terminacion de correcta de llenado de la tabla de canciones")
+
+ 
