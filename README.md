@@ -60,7 +60,7 @@ db.artists.aggregate([
 ])
 ```
 
-#### Top 10 canciones más populares con su artista y album
+#### Top 10 canciones más populares con su artista, año y album
 ```js
 db.tracks.aggregate([
   { $unwind: "$artists" },
@@ -71,7 +71,7 @@ db.tracks.aggregate([
   { $limit: 10 },
   { $lookup: { from: "albums", localField: "_id", foreignField: "id", as: "albumInfo" } },
   { $unwind: "$albumInfo" },
-  { $project: { _id: 0, albumName: "$albumInfo.name", artistName: "$mostPopularTrack.artist",
+  { $project: { _id: 0, albumName: "$albumInfo.name", releaseYear: { $year: { $toDate: "$albumInfo.release_date" } }, artistName: "$mostPopularTrack.artist",
       mostPopularTrack: {
         name: "$mostPopularTrack.name", popularity: "$mostPopularTrack.popularity" } } }
 ])
