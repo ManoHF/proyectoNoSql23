@@ -179,6 +179,10 @@ FROM spotify.tracks
 WHERE duration_ms > 600000  ALLOW FILTERING;
 ```
 
+## Resultados
+
+Si quieres ver de manera visual los resultados de los queries, ingresa al siguiente [link](Presentacion.pdf)
+
 ## Finalizacion
 
 En caso de querer eliminar los contenedores, podemos usar `docker compose down --volume`. Si no, podemos ejecutar la siguiente línea (seguimos en el path del proyecto) y solo prender los contenedores requeridos la siguiente vez:
