@@ -148,6 +148,12 @@ Iniciamos la terminal de cassandra:
 ```shell
 docker exec -it cassandradb cqlsh
 ```
+#### Nombre de los albums lanzados en Diciembre del 2022
+```SQL
+SELECT name 
+FROM spotify.albums 
+WHERE release_date>='2022-12-01' allow filtering;
+```
 
 ## Finalizacion
 
