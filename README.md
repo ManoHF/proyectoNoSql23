@@ -101,6 +101,16 @@ MATCH (a1:Artist)<-[:SANG_BY]-(s:Song)-[:SANG_BY]->(a2:Artist)
              RETURN collaboration_year, top3Collaborators;
 ```
 
+#### Top 5 duos más populars
+```cypher
+MATCH (a1:Artist)<-[:SANG_BY]-(song:Song)-[:SANG_BY]->(a2:Artist)
+WITH a1, a2, COLLECT(DISTINCT song.name) AS popularSongs, AVG(song.popularity) AS avgPopularity
+WHERE SIZE(popularSongs) >= 3 AND a1 < a2
+RETURN a1.name AS artist1, a2.name AS artist2, popularSongs, avgPopularity
+ORDER BY avgPopularity DESC, SIZE(popularSongs) DESC
+LIMIT 5;
+```
+
 ## Finalizacion
 
 En caso de querer eliminar los contenedores, podemos usar `docker compose down`. Si no, podemos ejecutar la siguiente línea y solo prender los contenedores requeridos la siguiente vez:
