@@ -8,6 +8,8 @@ Integrantes:
 
 ## Instalacion de contenedores
 
+Descarga el proyecto utilizando `git clone`.
+
 A partir del uso de **docker-compose** podemos generar una aplicación con múltiples contenedores. Para lograrlo, definimos nuestros servicios en el archivo `docker-compose.yaml` para, posteriormente, correrlos de manera conjunta en un ambiente aislado. Dentro de tu terminal y en el directorio en el cual descargaste los archivos, ejecuta el siguiente comando para iniciar los contenedores:
 
 ```shell
@@ -179,7 +181,7 @@ WHERE duration_ms > 600000  ALLOW FILTERING;
 
 ## Finalizacion
 
-En caso de querer eliminar los contenedores, podemos usar `docker compose down --volume`. Si no, podemos ejecutar la siguiente línea y solo prender los contenedores requeridos la siguiente vez:
+En caso de querer eliminar los contenedores, podemos usar `docker compose down --volume`. Si no, podemos ejecutar la siguiente línea (seguimos en el path del proyecto) y solo prender los contenedores requeridos la siguiente vez:
 
 ```shell
 docker-compose stop
