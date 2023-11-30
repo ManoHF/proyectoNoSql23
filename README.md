@@ -148,11 +148,12 @@ Iniciamos la terminal de cassandra:
 ```shell
 docker exec -it cassandradb cqlsh
 ```
-#### ¿Cuantos albums tenemos del 2013 al 2022?
+#### ¿Cuales albumes tiene más de 200 canciones?
 ```SQL
-SELECT count(*) 
+SELECT name,total_tracks 
 FROM spotify.albums 
-WHERE release_date>='2013-01-01' AND release_date<='2022-12-31' allow filtering;
+WHERE total_tracks>200 allow filtering;
+
 ```
 
 #### ¿Cuales son los artistas que tienen más de 50,000,000 de followers?
