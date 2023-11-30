@@ -163,6 +163,13 @@ FROM spotify.artists
 WHERE followers>50000000 allow filtering;
 ```
 
+#### ¿Qué canciones tienen una duración mayor a 10 minutos?
+```SQL
+SELECT name, duration_ms
+FROM spotify.tracks
+WHERE duration_ms > 600000  ALLOW FILTERING;
+```
+
 ## Finalizacion
 
 En caso de querer eliminar los contenedores, podemos usar `docker compose down`. Si no, podemos ejecutar la siguiente línea y solo prender los contenedores requeridos la siguiente vez:
