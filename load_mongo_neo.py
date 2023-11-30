@@ -202,18 +202,26 @@ print(f"Terminacion de correcta de llenado de la tabla de albumes")
 
 # Creacion y llenado de la tabla de canciones
 table_tracks_query = """ CREATE TABLE tracks 
-                         ( album_id text, disc_number int,
+                         ( album_id text, artist_id list<text>, artist_name list<text>, disc_number int,
                         duration_ms int, explicit boolean, track_id text,
                         popularity int, track_number int, name text,
                           PRIMARY KEY (album_id, track_number) ); """
 session.execute(table_tracks_query)
 
-insert_query_c = """INSERT INTO tracks (album_id, disc_number, duration_ms, explicit, track_id, popularity, 
-                    track_number, name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+insert_query_c = """INSERT INTO tracks (album_id, artist_id, artist_name, disc_number, duration_ms, explicit, track_id, popularity, 
+                    track_number, name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
-for artist in dict_canciones:
-    session.execute(insert_query_c, (cancion["album"]["id"], cancion["disc_number"], cancion["duration_ms"], cancion["explicit"],
+for cancion in dict_canciones:
+    a_names = []
+    a_ids = []
+    for artist in cancion["artists"]:
+        a_names.append(artist["name"])
+        a_ids.append(artist["id"])
+
+    session.execute(insert_query_c, (cancion["album"]["id"], a_names, a_ids, cancion["disc_number"], cancion["duration_ms"], cancion["explicit"],
                                    cancion["id"], cancion["popularity"], cancion["track_number"], cancion["name"]))
+    a_names.clear()
+    a_ids.clear()
 
 print(f"Terminacion de correcta de llenado de la tabla de canciones")
 
